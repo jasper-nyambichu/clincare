@@ -20,40 +20,42 @@ const navItems = [
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
 
-  // Close sidebar on route change (mobile)
+  // Close sidebar on route change (mobile only)
   useEffect(() => {
-    if (isOpen) {
-      onClose();
-    }
+    onClose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (
     <>
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={onClose}
-        />
-      )}
+      {/* Overlay — mobile only */}
+      <div
+        className={`
+          fixed inset-0 bg-black/50 z-40 lg:hidden
+          transition-opacity duration-300
+          ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
+        `}
+        onClick={onClose}
+      />
 
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-full w-[280px] z-50
+          fixed top-0 left-0 h-screen w-[280px] z-50
           bg-surface-container-lowest border-r border-outline-variant/30
           flex flex-col transition-transform duration-300 ease-in-out
-          lg:translate-x-0 lg:static lg:z-auto
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
         `}
       >
-        <div className="p-stack-lg py-10">
+        {/* Logo */}
+        <div className="p-stack-lg py-10 shrink-0">
           <h1 className="font-headline-md text-headline-md font-bold text-primary">ClinCare</h1>
           <p className="font-label-md text-label-md text-on-surface-variant mt-1">Medical Management</p>
         </div>
 
-        <nav className="flex-1 space-y-1">
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto space-y-1">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
             return (
@@ -80,7 +82,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           })}
         </nav>
 
-        <div className="p-stack-lg space-y-4">
+        {/* Bottom actions */}
+        <div className="p-stack-lg space-y-4 shrink-0">
           <button className="primary-gradient-btn w-full py-4 px-6 rounded-xl text-white font-label-md shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
             <span className="material-symbols-outlined text-sm">add</span>
             New Appointment

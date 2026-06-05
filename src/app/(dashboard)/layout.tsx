@@ -10,27 +10,34 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
+  // Prevent body scroll when mobile sidebar is open
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-      if (window.innerWidth >= 1024) {
-        setSidebarOpen(false); // Auto-close mobile sidebar on resize to desktop
-      }
+    if (sidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  }, [sidebarOpen]);
 
   return (
     <div className="flex min-h-screen bg-background">
+      {/* Sidebar is fixed-positioned internally; this wrapper reserves the desktop column */}
+      <div className="hidden lg:block w-[280px] shrink-0" />
+
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <main className="flex-1 lg:ml-0 min-h-screen">
-        <TopBar onMenuClick={() => setSidebarOpen(true)} />
-        <div className="p-stack-lg lg:p-margin-desktop">{children}</div>
-        {/* Floating Action Button for Mobile */}
+
+      {/* Main content — fills remaining space, scrolls independently */}
+      <main className="flex-1 min-w-0 flex flex-col min-h-screen">
+        <TopBar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
+        <div className="flex-1 p-stack-lg lg:p-margin-desktop overflow-y-auto">
+          {children}
+        </div>
+
+        {/* Mobile FAB */}
         <button className="fixed bottom-8 right-8 lg:hidden primary-gradient-btn w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center z-50">
           <span className="material-symbols-outlined">add</span>
         </button>

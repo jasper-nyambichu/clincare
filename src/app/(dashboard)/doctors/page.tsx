@@ -42,75 +42,76 @@ export default function DoctorsPage() {
 
   return (
     <div className="space-y-gutter">
+
       {/* Header */}
-      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h2 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">Our Specialists</h2>
           <p className="font-body-md text-body-md text-on-surface-variant mt-2 max-w-xl">
             Manage and monitor our clinical team. View doctor availability, specializations, and years of professional service at ClinCare.
           </p>
         </div>
-        <div className="flex gap-3">
-          <button className="px-6 py-3 rounded-xl border border-outline-variant text-primary font-label-md hover:bg-surface-container-low transition-all flex items-center gap-2">
+        <div className="flex gap-2 shrink-0">
+          <button className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl border border-outline-variant text-primary font-label-md hover:bg-surface-container-low transition-all flex items-center gap-2">
             <span className="material-symbols-outlined text-sm">filter_list</span>
-            Filter
+            <span className="hidden sm:inline">Filter</span>
           </button>
-          <button className="px-6 py-3 rounded-xl bg-primary text-white font-label-md hover:bg-primary/90 shadow-sm transition-all flex items-center gap-2">
+          <button className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl bg-primary text-white font-label-md hover:bg-primary/90 shadow-sm transition-all flex items-center gap-2 whitespace-nowrap">
             <span className="material-symbols-outlined text-sm">person_add</span>
-            Add Doctor
+            <span className="hidden sm:inline">Add Doctor</span>
           </button>
         </div>
       </div>
 
       {/* Doctor Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
         {doctors.map((doctor, idx) => (
           <div
             key={idx}
-            className="bg-surface-container-lowest rounded-[24px] doctor-card-shadow p-6 flex flex-col items-center text-center transition-all duration-300 doctor-card-hover border border-white/40"
+            className="bg-surface-container-lowest rounded-[24px] doctor-card-shadow p-5 md:p-6 flex flex-col items-center text-center transition-all duration-300 doctor-card-hover border border-white/40"
           >
-            <div className="relative w-28 h-28 mb-4">
+            <div className="relative w-24 h-24 md:w-28 md:h-28 mb-4">
               <img
                 alt={doctor.name}
                 className="w-full h-full rounded-full object-cover border-4 border-primary-container/20"
                 src={doctor.img}
               />
               <span
-                className={`absolute bottom-1 right-1 w-6 h-6 bg-${doctor.statusColor === "green" ? "green-500" : doctor.statusColor === "yellow" ? "yellow-500" : "gray-400"} rounded-full border-4 border-white`}
+                className={`absolute bottom-1 right-1 w-5 h-5 md:w-6 md:h-6 rounded-full border-4 border-white
+                  ${doctor.statusColor === "green" ? "bg-green-500" :
+                    doctor.statusColor === "yellow" ? "bg-yellow-500" : "bg-gray-400"}`}
                 title={doctor.status}
-              ></span>
+              />
             </div>
             <h3 className="font-headline-md text-headline-md text-on-surface">{doctor.name}</h3>
             <p className="font-label-md text-label-md text-primary mt-1">{doctor.specialty}</p>
 
-            <div className="w-full mt-6 grid grid-cols-2 gap-2">
+            <div className="w-full mt-5 grid grid-cols-2 gap-2">
               <div className="bg-surface-container-low p-3 rounded-2xl">
                 <p className="text-[10px] text-outline uppercase font-bold">Experience</p>
-                <p className="font-label-md text-on-surface">{doctor.experience}</p>
+                <p className="font-label-md text-on-surface mt-0.5">{doctor.experience}</p>
               </div>
               <div className="bg-surface-container-low p-3 rounded-2xl">
                 <p className="text-[10px] text-outline uppercase font-bold">Rating</p>
-                <p className="font-label-md text-on-surface flex items-center justify-center gap-1">
+                <p className="font-label-md text-on-surface flex items-center justify-center gap-1 mt-0.5">
                   <span className="material-symbols-outlined text-yellow-500 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                   {doctor.rating}
                 </p>
               </div>
             </div>
 
-            <div className={`mt-6 flex items-center gap-2 ${
-              doctor.statusColor === "green" ? "bg-green-100 text-green-700" :
-              doctor.statusColor === "yellow" ? "bg-yellow-100 text-yellow-700" :
-              "bg-surface-container-low text-outline"
-            } px-4 py-1 rounded-full`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${
-                doctor.statusColor === "green" ? "bg-green-600" :
-                doctor.statusColor === "yellow" ? "bg-yellow-600" :
-                "bg-outline"
-              }`}></span>
-              <span className="text-[12px] font-bold">{doctor.status}</span>
+            <div className={`mt-5 flex items-center gap-2 px-4 py-1.5 rounded-full
+              ${doctor.statusColor === "green" ? "bg-green-100 text-green-700" :
+                doctor.statusColor === "yellow" ? "bg-yellow-100 text-yellow-700" :
+                "bg-surface-container-low text-outline"}`}>
+              <span className={`w-1.5 h-1.5 rounded-full shrink-0
+                ${doctor.statusColor === "green" ? "bg-green-600" :
+                  doctor.statusColor === "yellow" ? "bg-yellow-600" : "bg-outline"}`}
+              />
+              <span className="text-[12px] font-bold whitespace-nowrap">{doctor.status}</span>
             </div>
 
-            <button className="mt-8 w-full py-4 border border-outline-variant rounded-xl font-label-md text-primary hover:bg-primary-container/10 transition-colors">
+            <button className="mt-6 w-full py-3 md:py-4 border border-outline-variant rounded-xl font-label-md text-primary hover:bg-primary-container/10 transition-colors">
               View Profile
             </button>
           </div>
@@ -118,84 +119,74 @@ export default function DoctorsPage() {
       </div>
 
       {/* Analytics Preview */}
-      <div className="mt-margin-desktop grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-surface-container-lowest rounded-[24px] doctor-card-shadow p-8 border border-white/40">
-          <div className="flex justify-between items-center mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+
+        {/* Department Overview */}
+        <div className="lg:col-span-2 bg-surface-container-lowest rounded-[24px] doctor-card-shadow p-6 md:p-8 border border-white/40">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 md:mb-8">
             <h4 className="font-headline-md text-on-surface">Department Overview</h4>
-            <button className="text-primary font-label-md flex items-center gap-1">
+            <button className="text-primary font-label-md flex items-center gap-1 self-start sm:self-auto">
               View Report
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
-          <div className="flex flex-col md:flex-row gap-12 items-center">
-            <div className="relative w-48 h-48">
-              <svg className="w-full h-full transform -rotate-90">
-                <circle className="text-surface-container-low" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" strokeWidth="12"></circle>
-                <circle className="text-primary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" strokeDasharray="502" strokeDashoffset="150" strokeWidth="12"></circle>
-                <circle className="text-secondary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" strokeDasharray="502" strokeDashoffset="350" strokeWidth="12"></circle>
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+            {/* Donut chart */}
+            <div className="relative w-40 h-40 md:w-48 md:h-48 shrink-0">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 192 192">
+                <circle className="text-surface-container-low" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" strokeWidth="12" />
+                <circle className="text-primary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" strokeDasharray="502" strokeDashoffset="150" strokeWidth="12" />
+                <circle className="text-secondary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" strokeDasharray="502" strokeDashoffset="350" strokeWidth="12" />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="font-headline-lg text-on-surface">42</span>
                 <span className="text-[10px] text-outline uppercase font-bold tracking-widest">Doctors</span>
               </div>
             </div>
+            {/* Bars */}
             <div className="flex-1 space-y-4 w-full">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="w-3 h-3 rounded-full bg-primary"></span>
-                  <span className="font-body-md text-on-surface">Specialists</span>
+              {[
+                { color: "bg-primary", label: "Specialists", pct: "65%", textColor: "text-primary" },
+                { color: "bg-secondary", label: "General Practitioners", pct: "35%", textColor: "text-secondary" },
+              ].map((item, idx) => (
+                <div key={idx}>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <span className={`w-3 h-3 rounded-full ${item.color}`} />
+                      <span className="font-body-md text-on-surface">{item.label}</span>
+                    </div>
+                    <span className="font-label-md">{item.pct}</span>
+                  </div>
+                  <div className="h-2 w-full bg-surface-container-low rounded-full overflow-hidden">
+                    <div className={`h-full ${item.color}`} style={{ width: item.pct }} />
+                  </div>
                 </div>
-                <span className="font-label-md">65%</span>
-              </div>
-              <div className="h-2 w-full bg-surface-container-low rounded-full overflow-hidden">
-                <div className="h-full bg-primary w-[65%]"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="w-3 h-3 rounded-full bg-secondary"></span>
-                  <span className="font-body-md text-on-surface">General Practitioners</span>
-                </div>
-                <span className="font-label-md">35%</span>
-              </div>
-              <div className="h-2 w-full bg-surface-container-low rounded-full overflow-hidden">
-                <div className="h-full bg-secondary w-[35%]"></div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-[24px] doctor-card-shadow p-8 border border-white/40">
+        {/* Staff Updates */}
+        <div className="bg-surface-container-lowest rounded-[24px] doctor-card-shadow p-6 md:p-8 border border-white/40">
           <h4 className="font-headline-md text-on-surface mb-6">Staff Updates</h4>
-          <div className="space-y-6">
-            <div className="flex gap-4">
-              <div className="w-10 h-10 rounded-xl bg-primary-container/20 text-primary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-sm">emergency</span>
+          <div className="space-y-5">
+            {[
+              { icon: "emergency", color: "bg-primary-container/20 text-primary", title: "Emergency Shift Rotation", sub: "Updated by Admin • 2h ago" },
+              { icon: "verified", color: "bg-tertiary-container/20 text-tertiary", title: "Credential Verification", sub: "Dr. Sarah Johnson • 5h ago" },
+              { icon: "groups", color: "bg-secondary-container/20 text-secondary", title: "Internal Team Sync", sub: "Tomorrow • 09:00 AM" },
+            ].map((item, idx) => (
+              <div key={idx} className="flex gap-4">
+                <div className={`w-10 h-10 rounded-xl ${item.color} flex items-center justify-center shrink-0`}>
+                  <span className="material-symbols-outlined text-sm">{item.icon}</span>
+                </div>
+                <div className="min-w-0">
+                  <p className="font-label-md text-on-surface">{item.title}</p>
+                  <p className="text-[12px] text-on-surface-variant">{item.sub}</p>
+                </div>
               </div>
-              <div>
-                <p className="font-label-md text-on-surface">Emergency Shift Rotation</p>
-                <p className="text-[12px] text-on-surface-variant">Updated by Admin • 2h ago</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-10 h-10 rounded-xl bg-tertiary-container/20 text-tertiary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-sm">verified</span>
-              </div>
-              <div>
-                <p className="font-label-md text-on-surface">Credential Verification</p>
-                <p className="text-[12px] text-on-surface-variant">Dr. Sarah Johnson • 5h ago</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-10 h-10 rounded-xl bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-sm">groups</span>
-              </div>
-              <div>
-                <p className="font-label-md text-on-surface">Internal Team Sync</p>
-                <p className="text-[12px] text-on-surface-variant">Tomorrow • 09:00 AM</p>
-              </div>
-            </div>
+            ))}
           </div>
-          <button className="w-full mt-10 py-3 rounded-xl bg-surface-container-low text-on-surface font-label-md hover:bg-surface-container transition-all">
+          <button className="w-full mt-8 py-3 rounded-xl bg-surface-container-low text-on-surface font-label-md hover:bg-surface-container transition-all">
             View All Activity
           </button>
         </div>
